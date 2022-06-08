@@ -2,13 +2,7 @@ import pygame
 import time
 import random
 
-arquivo = open("arquivo.txt", "a")
-nome = str(input("Digite o seu nome: "))
-email = str(input("Digite o seu email: "))
 
-arquivo.write(f'Nome: {nome} \n')
-arquivo.write(f'Email: {email} \n')
-arquivo.close
 pygame.init()
 
 
@@ -16,10 +10,10 @@ pygame.init()
 tela_largura = 800
 tela_altura = 600
 gameDisplay = pygame.display.set_mode((tela_largura, tela_altura))
-pygame.display.set_caption("Docelândia")
-icone = pygame.image.load("assets/icon.png")
+pygame.display.set_caption("Mario 12")
+icone = pygame.image.load("assets/marioicon.jpg")
 pygame.display.set_icon(icone)
-explosao_sound = pygame.mixer.Sound("assets/perdeu.wav")
+# explosao_sound = pygame.mixer.Sound("assets/perdeu.wav")
 
 
 
@@ -28,15 +22,15 @@ clock = pygame.time.Clock()
 # RGB
 black = (0, 0, 0)
 white = (255, 255, 255)
-ironMan = pygame.image.load("assets/kid.png")
-iron_largura = 100
-iron_altura = 120
+mario = pygame.image.load("assets/mario.png")
+mario_largura = 100
+mario_altura = 120
 
-missile = pygame.image.load("assets/doce.png")
-missile_largura = 140
-missile_altura = 128
+doce = pygame.image.load("assets/doce.png")
+doce_largura = 120
+doce_altura = 108
 
-algodao = pygame.image.load("assets/algodao.png")
+algodao = pygame.image.load("assets/pirulito.png")
 algodao_largura = 140
 algodao_altura = 128
 
@@ -46,11 +40,11 @@ fundo = pygame.image.load("assets/fundo.png")
 
 
 def mostrarIron(x, y):
-    gameDisplay.blit(ironMan, (x, y))
+    gameDisplay.blit(mario, (x, y))
 
 
-def mostraMissile(x, y):
-    gameDisplay.blit(missile, (x, y))
+def mostraDoce(x, y):
+    gameDisplay.blit(doce, (x, y))
 
 def mostraAlgodao(x, y):
     gameDisplay.blit(algodao, (x, y))
@@ -73,8 +67,8 @@ def message_display(text):
 
 
 def dead():
-    pygame.mixer.music.stop()
-    pygame.mixer.Sound.play(explosao_sound)
+    # pygame.mixer.music.stop()
+    # pygame.mixer.Sound.play(explosao_sound)
     message_display("Você Perdeu")
 
 
@@ -87,15 +81,15 @@ def escrePlacar(contador):
 
 
 def game_loop():
-    pygame.mixer.music.load("assets/musica.mp3")
-    pygame.mixer.music.play(-1)
+    # pygame.mixer.music.load("assets/musica.mp3")
+    # pygame.mixer.music.play(-1)
 
     iron_posicaoX = 350
     iron_posicaoY = 450
     movimentoX = 0
-    missile_speed = 5
-    missile_posicaoX = random.randrange(0, tela_largura)
-    missile_posicaoY = -128
+    doce_speed = 5
+    doce_posicaoX = random.randrange(0, tela_largura)
+    doce_posicaoY = -108
     algodao_speed = 3
     algodao_posicaoX = random.randrange(0, tela_largura)
     algodao_posicaoY = -128
@@ -128,16 +122,16 @@ def game_loop():
 
         mostrarIron(iron_posicaoX, iron_posicaoY)
 
-        mostraMissile(missile_posicaoX, missile_posicaoY)
-        missile_posicaoY = missile_posicaoY + missile_speed
+        mostraDoce(doce_posicaoX, doce_posicaoY)
+        doce_posicaoY = doce_posicaoY + doce_speed
 
         mostraAlgodao(algodao_posicaoX, algodao_posicaoY)
         algodao_posicaoY = algodao_posicaoY + algodao_speed
 
-        if missile_posicaoY > tela_altura:
-            missile_posicaoY = 0 - missile_altura
-            missile_speed += 1
-            missile_posicaoX = random.randrange(0, tela_largura)
+        if doce_posicaoY > tela_altura:
+            doce_posicaoY = 0 - doce_altura
+            doce_speed += 1
+            doce_posicaoX = random.randrange(0, tela_largura)
             desvios = desvios + 1
 
         if algodao_posicaoY > tela_altura:
@@ -148,18 +142,18 @@ def game_loop():
 
         escrePlacar(desvios)
 
-        if iron_posicaoX > tela_largura - iron_largura:
-            iron_posicaoX = tela_largura - iron_largura
+        if iron_posicaoX > tela_largura - mario_largura:
+            iron_posicaoX = tela_largura - mario_largura
         elif iron_posicaoX < 0:
             iron_posicaoX = 0
 
 
-        if iron_posicaoY+140 < missile_posicaoY + missile_altura:
-            if iron_posicaoX < missile_posicaoX and iron_posicaoX + iron_largura > missile_posicaoX or missile_posicaoX+missile_largura > iron_posicaoX and missile_posicaoX + missile_largura < iron_posicaoX + iron_largura:
+        if iron_posicaoY+140 < doce_posicaoY + doce_altura:
+            if iron_posicaoX < doce_posicaoX and iron_posicaoX + mario_largura > doce_posicaoX or doce_posicaoX+doce_largura > iron_posicaoX and doce_posicaoX + doce_largura < iron_posicaoX + mario_largura:
                 dead()
 
         if iron_posicaoY+140 < algodao_posicaoY + algodao_altura:
-            if iron_posicaoX < algodao_posicaoX and iron_posicaoX + iron_largura > algodao_posicaoX or algodao_posicaoX+algodao_largura > iron_posicaoX and algodao_posicaoX + algodao_largura < iron_posicaoX + iron_largura:
+            if iron_posicaoX < algodao_posicaoX and iron_posicaoX + mario_largura > algodao_posicaoX or algodao_posicaoX+algodao_largura > iron_posicaoX and algodao_posicaoX + algodao_largura < iron_posicaoX + mario_largura:
                 dead()
         pygame.display.update()
         clock.tick(60)
